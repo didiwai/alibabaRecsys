@@ -5,7 +5,7 @@ userlist = list()
 
 def recPop():
 	userBuyList = dict()
-	with open("predata.csv", "rb") as csvfile:
+	with open("trainData.csv", "rb") as csvfile:
 		reader = csv.reader(csvfile)
 		for row in reader:
 			if row[0] not in userlist:
@@ -30,7 +30,7 @@ def recPop():
 def recToUser(userBuyList):
 	sort = sorted(dic.items(), key = lambda e:e[1], reverse = True)
 	print "Create PopItem.csv file"
-	with open("PopItemRecommend.csv", "wb") as csvfile:
+	with open("PopItemRecommend2.csv", "wb") as csvfile:
 		writer = csv.writer(csvfile)
 		for u in userlist:
 			i = 0

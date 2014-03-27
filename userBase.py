@@ -40,7 +40,7 @@ def UserSimilarity(train):
 def Recommend(user, train, W, K):
 	rank = dict()
 	interacted_items = train[user]
-	for v, wuv in sorted(W[user].items(), key=lambda x:x[1], reverse=False)[0:K]:
+	for v, wuv in sorted(W[user].items(), key=lambda x:x[1], reverse = True)[0:K]:
 		for i, rvi in train[v].items():
 			if i in interacted_items:
 				#we should filter items user interacted before
@@ -55,24 +55,15 @@ def Recommend(user, train, W, K):
 def processData():
 	userItem = dict()
 	print "process data....."
-	with open("predata.csv", "rb") as csvfile:
+	with open("trainData.csv", "rb") as csvfile:
 		reader = csv.reader(csvfile)
 		for r in reader:
 			if r[0] not in userItem:
 				userItem[r[0]] = {}
+
 			tempvalue = int(r[2])
-			if tempvalue == 0:
-				tempvalue = 1
-			elif tempvalue == 1:
-				tempvalue = 15
-			elif tempvalue == 2:
-				tempvalue = 10
-			else:
-				tempvalue = 5
-			if r[1] in userItem[r[0]]:
-				userItem[r[0]][r[1]] += tempvalue
-			else:
-				userItem[r[0]][r[1]] = tempvalue
+			userItem[r[0]][r[1]] = tempvalue
+
 	print "End process data...."
 	print "Begin write!"
 	with open("userBaseData.csv", "wb") as csvwrite:
@@ -113,7 +104,6 @@ if __name__ == "__main__":
 	userItemDict = getTrain("userBaseData.csv")
 	W = UserSimilarity(userItemDict)
 	print "Recommend....."
-	num = 1
 	with open("UserBaseRecommend.csv", "wb") as csvfile:
 		writer = csv.writer(csvfile)
 		for user in userId:
@@ -126,5 +116,4 @@ if __name__ == "__main__":
 					break
 				relist.append(item)
 				i += 1
-			num += 1
 			writer.writerow([user, "|".join(relist)])

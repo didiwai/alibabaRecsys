@@ -35,7 +35,7 @@ def ItemSimilarity(train):
 def Recommendation(ru, W, K):
 	rank = dict()
 	for i, pi in ru.items():
-		for j, wj in sorted(W[i].items(), key=lambda x:x[1], reverse=False)[0:K]:
+		for j, wj in sorted(W[i].items(), key = lambda x:x[1], reverse = True)[0:K]:
 			if j in ru:
 				continue
 			if j in rank:	
@@ -48,12 +48,13 @@ def Recommendation(ru, W, K):
 def processData():
 	userItem = dict()
 	print "process data....."
-	with open("predata.csv", "rb") as csvfile:
+	with open("trainData.csv", "rb") as csvfile:
 		reader = csv.reader(csvfile)
 		for r in reader:
 			if r[0] not in userItem:
 				userItem[r[0]] = {}
 			tempvalue = int(r[2])
+			'''
 			if tempvalue == 0:
 				tempvalue = 1
 			elif tempvalue == 1:
@@ -66,6 +67,8 @@ def processData():
 				userItem[r[0]][r[1]] += tempvalue
 			else:
 				userItem[r[0]][r[1]] = tempvalue
+			'''
+			userItem[r[0]][r[1]] = tempvalue
 	print "End process data...."
 
 	print "Begin write!"
@@ -129,8 +132,8 @@ if __name__ == "__main__":
 			for item, value in t:
 				if i == 5:
 					break
-				if item not in userBuyList[user]:
-					relist.append(item)
-					i += 1	
+				#if item not in userBuyList[user]:
+				relist.append(item)
+				i += 1	
 			writer.writerow([user, "|".join(relist)])
 
