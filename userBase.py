@@ -114,6 +114,7 @@ if __name__ == "__main__":
 			for item, value in t:
 				if i == 5:
 					break
-				relist.append(item)
+				relist.append((item, value))
 				i += 1
-			writer.writerow([user, "|".join(relist)])
+			#writer.writerow([user, "|".join(relist)])
+			writer.writerow([user, relist])
